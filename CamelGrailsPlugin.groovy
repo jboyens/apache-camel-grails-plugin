@@ -74,7 +74,7 @@ added with the 'grails create-route MyRouteName' command.
 			camelContext(id:'camelContext')
 			{
 				routeClasses.each { routeClass ->
-					routeBuilderRef(ref:"${routeClass.fullName}")
+					routeBuilder(ref:"${routeClass.fullName}")
 				}
 				template(id:'producerTemplate')
 			}
