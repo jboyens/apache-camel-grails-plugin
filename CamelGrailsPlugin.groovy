@@ -88,7 +88,6 @@ added with the 'grails create-route MyRouteName' command.
     }
 
     def doWithDynamicMethods = { ctx ->
-		GrailsRouteBuilder.metaClass
     	this.addMethods(application.controllerClasses,ctx);
     	this.addMethods(application.serviceClasses,ctx);
     }
