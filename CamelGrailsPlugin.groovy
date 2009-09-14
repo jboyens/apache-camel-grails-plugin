@@ -70,14 +70,11 @@ added with the 'grails create-route MyRouteName' command.
 			configureRouteBeans(routeClass)
 		}
 
-		camel {
-			camelContext(id:'camelContext')
-			{
-				routeClasses.each { routeClass ->
-					routeBuilder(ref:"${routeClass.fullName}")
-				}
-				template(id:'producerTemplate')
+		camel.camelContext(id:'camelContext') {
+			routeClasses.each { routeClass ->
+				camel.routeBuilder(ref:"${routeClass.fullName}")
 			}
+			camel.template(id:'producerTemplate')
 		}
     }
 
