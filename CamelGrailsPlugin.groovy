@@ -2,8 +2,8 @@ import org.apache.camel.spring.CamelContextFactoryBean
 import org.ix.grails.plugins.camel.*
 import org.ix.test.*
 import grails.util.GrailsNameUtils
-import org.apache.camel.model.ProcessorType
-import org.apache.camel.model.ChoiceType
+import org.apache.camel.model.ProcessorDefinition
+import org.apache.camel.model.ChoiceDefinition
 import org.apache.camel.spring.spi.SpringTransactionPolicy
 import org.apache.camel.language.groovy.CamelGroovyMethods
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean
@@ -51,7 +51,7 @@ added with the 'grails create-route MyRouteName' command.
     def doWithSpring = {
 		init()
 
-		xmlns camel:'http://activemq.apache.org/camel/schema/spring'
+		xmlns camel:'http://camel.apache.org/schema/spring'
 		
 		propagationRequiredTransactionPolicy(SpringTransactionPolicy) {
 			transactionManager = ref("transactionManager")
@@ -70,14 +70,11 @@ added with the 'grails create-route MyRouteName' command.
 			configureRouteBeans(routeClass)
 		}
 
-		camel {
-			camelContext(id:'camelContext')
-			{
-				routeClasses.each { routeClass ->
-					routeBuilderRef(ref:"${routeClass.fullName}")
-				}
-				template(id:'producerTemplate')
+		camel.camelContext(id:'camelContext') {
+			routeClasses.each { routeClass ->
+				camel.routeBuilder(ref:"${routeClass.fullName}")
 			}
+			camel.template(id:'producerTemplate')
 		}
     }
 
@@ -110,21 +107,21 @@ added with the 'grails create-route MyRouteName' command.
 
     private init() {
     	log.debug "Adding Groovy-ish methods to RouteBuilder Helpers"
-    	ProcessorType.metaClass.filter = {filter ->
+    	ProcessorDefinition.metaClass.filter = {filter ->
 			if (filter instanceof Closure) {
 				filter = CamelGroovyMethods.toExpression(filter)
 			}
 			delegate.filter(filter);
 		}
 
-		ChoiceType.metaClass.when = {filter ->
+		ChoiceDefinition.metaClass.when = {filter ->
 			if (filter instanceof Closure) {
 				filter = CamelGroovyMethods.toExpression(filter)
 			}
 			delegate.when(filter);
 		}
 
-		ProcessorType.metaClass.process = {filter ->
+		ProcessorDefinition.metaClass.process = {filter ->
 			if (filter instanceof Closure) {
 				filter = new ClosureProcessor(filter)
 			}
