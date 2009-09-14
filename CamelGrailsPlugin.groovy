@@ -4,6 +4,7 @@ import org.ix.test.*
 import grails.util.GrailsNameUtils
 import org.apache.camel.model.ProcessorType
 import org.apache.camel.model.ChoiceType
+import org.apache.camel.spring.spi.SpringTransactionPolicy
 import org.apache.camel.language.groovy.CamelGroovyMethods
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean
 import org.apache.log4j.Logger
@@ -19,7 +20,7 @@ class CamelGrailsPlugin {
     // the other plugins this plugin depends on
     def dependsOn = [:]
     // resources that are excluded from plugin packaging
-    def loadAfter = ['controllers','services']
+    def loadAfter = ['controllers','services','domainClass']
     def pluginExcludes = [
             "grails-app/views/error.gsp"
     ]
@@ -48,9 +49,18 @@ added with the 'grails create-route MyRouteName' command.
     def documentation = "http://grails.org/Camel+Plugin"
 
     def doWithSpring = {
-    	init()
+		init()
 
 		xmlns camel:'http://activemq.apache.org/camel/schema/spring'
+		
+		propagationRequiredTransactionPolicy(SpringTransactionPolicy) {
+			transactionManager = ref("transactionManager")
+		}
+		
+		propagationRequiresNewTransactionPolicy(SpringTransactionPolicy) {
+			transactionManager = ref("transactionManager")
+			propagationBehaviorName = "PROPAGATION_REQUIRES_NEW"
+		}
 
 		def routeClasses = application.routeClasses
 
@@ -78,6 +88,7 @@ added with the 'grails create-route MyRouteName' command.
     }
 
     def doWithDynamicMethods = { ctx ->
+		GrailsRouteBuilder.metaClass
     	this.addMethods(application.controllerClasses,ctx);
     	this.addMethods(application.serviceClasses,ctx);
     }
@@ -135,6 +146,8 @@ added with the 'grails create-route MyRouteName' command.
 		"${fullName}"(GrailsRouteBuilderFactoryBean)
 		{
 			routeClass = ref("${fullName}RouteClass")
+			propagationRequiredTransactionPolicy = propagationRequiredTransactionPolicy
+			propagationRequiresNewTransactionPolicy = propagationRequiresNewTransactionPolicy
 		}
 	}
 

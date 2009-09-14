@@ -2,6 +2,7 @@ package org.ix.grails.plugins.camel;
 
 import org.springframework.beans.factory.FactoryBean;
 import org.apache.log4j.Logger;
+import org.apache.camel.spring.spi.SpringTransactionPolicy;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,13 +14,15 @@ import org.apache.log4j.Logger;
 public class GrailsRouteBuilderFactoryBean implements FactoryBean {
 
 	private GrailsRouteClass routeClass;
-
+    private SpringTransactionPolicy propagationRequiredTransactionPolicy;
+    private SpringTransactionPolicy propagationRequiresNewTransactionPolicy;
+    
 	private static final Logger log = Logger.getLogger(GrailsRouteBuilderFactoryBean.class);
 
 	@Override
 	public Object getObject() throws Exception {
 		log.debug("RouteClass: " + routeClass);
-		return new GrailsRouteBuilder(routeClass.getConfiguration());
+		return new GrailsRouteBuilder(routeClass.getConfiguration(), propagationRequiredTransactionPolicy, propagationRequiresNewTransactionPolicy);
 	}
 
 	@Override
@@ -36,4 +39,13 @@ public class GrailsRouteBuilderFactoryBean implements FactoryBean {
 		log.debug("Hit GrailsRouteBuilderFactoryBean.setRouteClass");
 		this.routeClass = routeClass;
 	}
+	
+	public void setPropagationRequiredTransactionPolicy(SpringTransactionPolicy policy) {
+	    this.propagationRequiredTransactionPolicy = policy;
+	}
+	
+	public void setPropagationRequiresNewTransactionPolicy(SpringTransactionPolicy policy) {
+	    this.propagationRequiresNewTransactionPolicy = policy;
+	}
+	
 }
