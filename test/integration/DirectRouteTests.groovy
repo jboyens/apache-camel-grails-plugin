@@ -4,7 +4,7 @@ class DirectRouteTests extends GroovyTestCase {
 	def producerTemplate
 	
 	void testSimpleSendMessage() {
-		producerTemplate.sendBody("direct:test", "payload1")
+		producerTemplate.sendBody("direct:testDirect", "payload1")
 		assertEquals("payload1", testDirectReceiverService.received)
 	}
 

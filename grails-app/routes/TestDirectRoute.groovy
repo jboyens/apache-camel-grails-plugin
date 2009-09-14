@@ -1,7 +1,7 @@
 class TestDirectRoute {
 
 	def configure = {
-		from('direct:test').to('bean:testDirectReceiverService?method=receive')
+		from('direct:testDirect').to('bean:testDirectReceiverService?method=receive')
 	}
 
 }
