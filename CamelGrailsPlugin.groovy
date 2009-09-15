@@ -106,9 +106,6 @@ added with the 'grails create-route MyRouteName' command.
 		}
     }
 
-    def doWithWebDescriptor = { xml ->
-    }
-
     def doWithDynamicMethods = { ctx ->
 		enhanceRouteBuilderHelpers()
     	this.addMethods(application.controllerClasses,ctx);
@@ -125,10 +122,6 @@ added with the 'grails create-route MyRouteName' command.
 			def grailsClass = application."${artifactType}Classes".find { it.fullName == artifactName }
 			this.addMethods([grailsClass],event.ctx)
 		}
-    }
-
-    def onConfigChange = { event ->
-
     }
 
     private enhanceRouteBuilderHelpers() {
