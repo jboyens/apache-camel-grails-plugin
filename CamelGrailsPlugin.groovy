@@ -61,24 +61,47 @@ added with the 'grails create-route MyRouteName' command.
 			transactionManager = ref("transactionManager")
 			propagationBehaviorName = "PROPAGATION_REQUIRES_NEW"
 		}
-
-		def routeClasses = application.routeClasses
-
-		log.debug "Configuring Routes"
-		routeClasses.each { routeClass ->
-			configureRouteBeans.delegate = delegate
-			configureRouteBeans(routeClass)
-		}
-
-		camelContext(CamelContextFactoryBean) {
-			routeBuilders = routeClasses.collect { ref(it.fullName) }
-			shouldStartContext = false
-		}
-		producerTemplate(CamelProducerTemplateFactoryBean) {
-			camelContext = camelContext
-		}
+		
+		registerRoutesCamelContextAndProducerTemplate(delegate, application.routeClasses)
+		
     }
 
+	def registerRoutesCamelContextAndProducerTemplate(beanBuilder, routeClasses) {
+		def routeBuilderBeanNames = []
+		
+		routeClasses.each {
+			def routeClassName = it.fullName
+			def routeClassBeanName = "${routeClassName}RouteClass"
+			def routeBuilderBeanName = "${routeClassName}Builder"
+			routeBuilderBeanNames << routeBuilderBeanName
+			
+			beanBuilder.with {
+				"$routeClassBeanName"(MethodInvokingFactoryBean) {
+					targetObject = ref("grailsApplication",true)
+					targetMethod = "getArtefact"
+					arguments = [RouteArtefactHandler.TYPE, routeClassName]
+				}
+
+				"$routeBuilderBeanName"(GrailsRouteBuilderFactoryBean) {
+					routeClass = ref(routeClassBeanName)
+					propagationRequiredTransactionPolicy = propagationRequiredTransactionPolicy
+					propagationRequiresNewTransactionPolicy = propagationRequiresNewTransactionPolicy
+				}
+			}
+		}
+
+		beanBuilder.with {
+			camelContext(CamelContextFactoryBean) {
+				routeBuilders = routeBuilderBeanNames.collect { ref(it) }
+				shouldStartContext = false
+			}
+			
+			producerTemplate(CamelProducerTemplateFactoryBean) {
+				camelContext = camelContext
+			}
+		}
+	}
+	
     def doWithApplicationContext = { applicationContext ->
 		applicationContext.getBean("camelContext").with {
 			shouldStartContext = true
@@ -131,24 +154,6 @@ added with the 'grails create-route MyRouteName' command.
 				filter = new ClosureProcessor(filter)
 			}
 			delegate.process(filter);
-		}
-	}
-
-
-	private configureRouteBeans = { routeClazz ->
-		def fullName = routeClazz.fullName
-
-		"${fullName}RouteClass"(MethodInvokingFactoryBean) {
-			targetObject = ref("grailsApplication",true)
-			targetMethod = "getArtefact"
-			arguments = [RouteArtefactHandler.TYPE, fullName]
-		}
-
-		"${fullName}"(GrailsRouteBuilderFactoryBean)
-		{
-			routeClass = ref("${fullName}RouteClass")
-			propagationRequiredTransactionPolicy = propagationRequiredTransactionPolicy
-			propagationRequiresNewTransactionPolicy = propagationRequiresNewTransactionPolicy
 		}
 	}
 
