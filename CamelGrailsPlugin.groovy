@@ -5,6 +5,8 @@ import grails.util.GrailsNameUtils
 import org.apache.camel.model.ProcessorDefinition
 import org.apache.camel.model.ChoiceDefinition
 import org.apache.camel.spring.spi.SpringTransactionPolicy
+import org.apache.camel.spring.CamelContextFactoryBean
+import org.apache.camel.spring.CamelProducerTemplateFactoryBean
 import org.apache.camel.language.groovy.CamelGroovyMethods
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean
 import org.apache.log4j.Logger
@@ -50,8 +52,6 @@ added with the 'grails create-route MyRouteName' command.
 
     def doWithSpring = {
 		init()
-
-		xmlns camel:'http://camel.apache.org/schema/spring'
 		
 		propagationRequiredTransactionPolicy(SpringTransactionPolicy) {
 			transactionManager = ref("transactionManager")
@@ -70,15 +70,20 @@ added with the 'grails create-route MyRouteName' command.
 			configureRouteBeans(routeClass)
 		}
 
-		camel.camelContext(id:'camelContext') {
-			routeClasses.each { routeClass ->
-				camel.routeBuilder(ref:"${routeClass.fullName}")
-			}
-			camel.template(id:'producerTemplate')
+		camelContext(CamelContextFactoryBean) {
+			routeBuilders = routeClasses.collect { ref(it.fullName) }
+			shouldStartContext = false
+		}
+		producerTemplate(CamelProducerTemplateFactoryBean) {
+			camelContext = camelContext
 		}
     }
 
     def doWithApplicationContext = { applicationContext ->
+		applicationContext.getBean("camelContext").with {
+			shouldStartContext = true
+			start()
+		}
     }
 
     def doWithWebDescriptor = { xml ->
