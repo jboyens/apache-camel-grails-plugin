@@ -2,6 +2,7 @@ package org.ix.grails.plugins.camel
 
 import org.apache.camel.builder.RouteBuilder
 import org.apache.camel.spring.spi.SpringTransactionPolicy
+import org.slf4j.LoggerFactory
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,6 +14,8 @@ import org.apache.camel.spring.spi.SpringTransactionPolicy
 
 public class GrailsRouteBuilder extends RouteBuilder {
 
+	static log = LoggerFactory.getLogger(this)
+	
 	def confClosure
 	def PROPAGATION_REQUIRED
 	def PROPAGATION_REQUIRES_NEW
@@ -25,11 +28,13 @@ public class GrailsRouteBuilder extends RouteBuilder {
 
 	public void configure() {
 		this.confClosure.delegate = this
+		log.info("invoking config of builder ${confClosure.owner.class}")
 		this.confClosure()
 	}
 	
 	def methodMissing(String name, args) {
 		if (args.size() == 1 && args[0] instanceof Closure) {
+			log.info("creating builder invocation proxy for route $name on builder ${confClosure.owner.class}")
 			def invocationProxy = new GrailsRouteBuilderInvocationProxy(builder: this, last: this.from(name), definition: args[0])
 			invocationProxy.configure()
 		} else {
