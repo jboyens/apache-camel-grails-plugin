@@ -51,8 +51,6 @@ added with the 'grails create-route MyRouteName' command.
     def documentation = "http://grails.org/Camel+Plugin"
 
     def doWithSpring = {
-		init()
-		
 		propagationRequiredTransactionPolicy(SpringTransactionPolicy) {
 			transactionManager = ref("transactionManager")
 		}
@@ -63,7 +61,6 @@ added with the 'grails create-route MyRouteName' command.
 		}
 		
 		registerRoutesCamelContextAndProducerTemplate(delegate, application.routeClasses)
-		
     }
 
 	def registerRoutesCamelContextAndProducerTemplate(beanBuilder, routeClasses) {
@@ -113,6 +110,7 @@ added with the 'grails create-route MyRouteName' command.
     }
 
     def doWithDynamicMethods = { ctx ->
+		enhanceRouteBuilderHelpers()
     	this.addMethods(application.controllerClasses,ctx);
     	this.addMethods(application.serviceClasses,ctx);
     }
@@ -133,8 +131,7 @@ added with the 'grails create-route MyRouteName' command.
 
     }
 
-    private init() {
-    	log.debug "Adding Groovy-ish methods to RouteBuilder Helpers"
+    private enhanceRouteBuilderHelpers() {
     	ProcessorDefinition.metaClass.filter = {filter ->
 			if (filter instanceof Closure) {
 				filter = CamelGroovyMethods.toExpression(filter)
