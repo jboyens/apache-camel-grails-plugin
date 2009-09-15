@@ -115,12 +115,20 @@ added with the 'grails create-route MyRouteName' command.
     def onChange = { event ->
     	def artifactName = "${event.source.name}"
     	log.debug "Detected a change in ${artifactName}"
-        if (artifactName.endsWith('Controller') || artifactName.endsWith('Service'))
-        {
-			def artifactType = (artifactName.endsWith('Controller')) ? 'controller' : 'service'
-			log.debug "It's a ${artifactType}"
-			def grailsClass = application."${artifactType}Classes".find { it.fullName == artifactName }
-			this.addMethods([grailsClass],event.ctx)
+
+		def artefactClass
+		def isSendMessageTarget
+		
+        if (application.isControllerClass(event.source)) {
+			isSendMessageTarget = true
+			artefactClass = application.getControllerClass(artifactName)
+		} else if (application.isServiceClass(event.source)) {
+			isSendMessageTarget = true
+			artefactClass = application.getServiceClass(artifactName)
+		}
+
+		if (isSendMessageTarget) {
+			addMethods([artefactClass], event.ctx)
 		}
     }
 
