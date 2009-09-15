@@ -4,10 +4,9 @@ class GrailsRouteBuilderInvocationProxy {
 
 	def builder
 	def definition
-	private last
+	def last
 	
 	void configure() {
-		last = route
 		definition.delegate = this
 		definition()
 	}
@@ -23,7 +22,7 @@ class GrailsRouteBuilderInvocationProxy {
 			}
 		}
 		
-		value ?: throw new MissingMethodException(name, definition.owner.class, args)
+		value ?: { throw new MissingMethodException(name, definition.owner.class, args) }()
 	}
 
 }

@@ -30,7 +30,7 @@ public class GrailsRouteBuilder extends RouteBuilder {
 	
 	def methodMissing(String name, args) {
 		if (args.size() == 1 && args[0] instanceof Closure) {
-			def invocationProxy = new GrailsRouteBuilderInvocationProxy(route: this.from(name), definition: args[0])
+			def invocationProxy = new GrailsRouteBuilderInvocationProxy(builder: this, last: this.from(name), definition: args[0])
 			invocationProxy.configure()
 		} else {
 			throw new MissingMethodException(name, confClosure.owner.class, args)
