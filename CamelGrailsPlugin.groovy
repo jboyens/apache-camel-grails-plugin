@@ -2,8 +2,6 @@ import org.apache.camel.spring.CamelContextFactoryBean
 import org.ix.grails.plugins.camel.*
 import org.ix.test.*
 import grails.util.GrailsNameUtils
-import org.apache.camel.model.ProcessorDefinition
-import org.apache.camel.model.ChoiceDefinition
 import org.apache.camel.spring.spi.SpringTransactionPolicy
 import org.apache.camel.spring.CamelContextFactoryBean
 import org.apache.camel.spring.CamelProducerTemplateFactoryBean
@@ -107,7 +105,6 @@ added with the 'grails create-route MyRouteName' command.
     }
 
     def doWithDynamicMethods = { ctx ->
-		enhanceRouteBuilderHelpers()
     	this.addMethods(application.controllerClasses,ctx);
     	this.addMethods(application.serviceClasses,ctx);
     }
@@ -131,29 +128,6 @@ added with the 'grails create-route MyRouteName' command.
 			addMethods([artefactClass], event.ctx)
 		}
     }
-
-    private enhanceRouteBuilderHelpers() {
-    	ProcessorDefinition.metaClass.filter = {filter ->
-			if (filter instanceof Closure) {
-				filter = CamelGroovyMethods.toExpression(filter)
-			}
-			delegate.filter(filter);
-		}
-
-		ChoiceDefinition.metaClass.when = {filter ->
-			if (filter instanceof Closure) {
-				filter = CamelGroovyMethods.toExpression(filter)
-			}
-			delegate.when(filter);
-		}
-
-		ProcessorDefinition.metaClass.process = {filter ->
-			if (filter instanceof Closure) {
-				filter = new ClosureProcessor(filter)
-			}
-			delegate.process(filter);
-		}
-	}
 
 	private addMethods(artifacts,ctx) {
 		log.debug "Adding dynamic methods to ${artifacts}"
