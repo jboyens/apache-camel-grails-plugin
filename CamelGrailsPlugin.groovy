@@ -126,7 +126,7 @@ added with the 'grails create-route MyRouteName' command.
 		}
 
 		if (isSendMessageTarget) {
-			def producerTemplate = ctx.getBean('producerTemplate')
+			def producerTemplate = event.ctx.getBean('producerTemplate')
 			ProducerConvenienceMethodDecorator.decorate(producerTemplate, artefactClass)
 		}
     }
