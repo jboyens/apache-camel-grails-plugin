@@ -105,8 +105,9 @@ added with the 'grails create-route MyRouteName' command.
     }
 
     def doWithDynamicMethods = { ctx ->
-    	this.addMethods(application.controllerClasses,ctx);
-    	this.addMethods(application.serviceClasses,ctx);
+		def producerTemplate = ctx.getBean('producerTemplate')
+		ProducerConvenienceMethodDecorator.decorate(producerTemplate, application.controllerClasses)
+		ProducerConvenienceMethodDecorator.decorate(producerTemplate, application.serviceClasses)
     }
 
     def onChange = { event ->
@@ -125,21 +126,8 @@ added with the 'grails create-route MyRouteName' command.
 		}
 
 		if (isSendMessageTarget) {
-			addMethods([artefactClass], event.ctx)
+			def producerTemplate = ctx.getBean('producerTemplate')
+			ProducerConvenienceMethodDecorator.decorate(producerTemplate, artefactClass)
 		}
     }
-
-	private addMethods(artifacts,ctx) {
-		log.debug "Adding dynamic methods to ${artifacts}"
-		def template = ctx.getBean('producerTemplate')
-
-        artifacts.each { artifact ->
-        	artifact.metaClass.sendMessage = { endpoint,message ->
-        		template.sendBody(endpoint,message)
-			}
-			artifact.metaClass.requestMessage = { endpoint,message ->
-        		template.requestBody(endpoint,message)
-			}
-		}
-	}
 }
