@@ -9,9 +9,11 @@ class ProducerConvenienceMethodDecorator {
 	static decorations = [
 		camelSend: [
 			{ producerTemplate, endpoint, body -> producerTemplate.sendBody(endpoint, body) },
+			{ producerTemplate, Map headers, endpoint, body -> producerTemplate.sendBodyAndHeaders(endpoint, body, headers) }
 		],
 		camelRequest: [
 			{ producerTemplate, endpoint, body -> producerTemplate.requestBody(endpoint, body) },
+			{ producerTemplate, Map headers, endpoint, body -> producerTemplate.requestBodyAndHeaders(endpoint, body, headers) }
 		]
 	]
 	

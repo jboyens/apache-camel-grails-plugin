@@ -21,8 +21,14 @@ class ProducerConvenienceMethodDecoratorTests extends GroovyTestCase {
 		decoratee.camelSend "1", "1"
 		assertInvoked('sendBody', "1", "1")
 				
+		decoratee.camelSend "1", "1", header: "value"
+		assertInvoked('sendBodyAndHeaders', "1", "1", [header: "value"])
+		
 		decoratee.camelRequest "1", "1"
 		assertInvoked('requestBody', "1", "1")
+
+		decoratee.camelRequest "1", "1", header: "value"
+		assertInvoked('requestBodyAndHeaders', "1", "1", [header: "value"])
 	}
 	
 	void testDecorateMultiple() {
