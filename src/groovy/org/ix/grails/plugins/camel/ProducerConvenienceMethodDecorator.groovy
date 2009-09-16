@@ -7,10 +7,10 @@ class ProducerConvenienceMethodDecorator {
 	static log = LoggerFactory.getLogger(this)
 	
 	static decorations = [
-		sendMessage: [
+		camelSend: [
 			{ producerTemplate, endpoint, body -> producerTemplate.sendBody(endpoint, body) },
 		],
-		requestMessage: [
+		camelRequest: [
 			{ producerTemplate, endpoint, body -> producerTemplate.requestBody(endpoint, body) },
 		]
 	]

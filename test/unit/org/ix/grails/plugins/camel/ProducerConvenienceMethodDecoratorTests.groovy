@@ -13,22 +13,22 @@ class ProducerConvenienceMethodDecoratorTests extends GroovyTestCase {
 	void testDecorations() {
 		
 		shouldFail(MissingMethodException) {
-			decoratee.sendMessage "1", "1"
+			decoratee.camelSend "1", "1"
 		}
 		
 		ProducerConvenienceMethodDecorator.decorate(recorder, decoratee)
 
-		decoratee.sendMessage "1", "1"
+		decoratee.camelSend "1", "1"
 		assertInvoked('sendBody', "1", "1")
 				
-		decoratee.requestMessage "1", "1"
+		decoratee.camelRequest "1", "1"
 		assertInvoked('requestBody', "1", "1")
 	}
 	
 	void testDecorateMultiple() {
 		def decoratee2 = new Object()
 		ProducerConvenienceMethodDecorator.decorate(recorder, decoratee, decoratee2) 
-		decoratee2.sendMessage "1", "1"
+		decoratee2.camelSend "1", "1"
 		assertInvoked('sendBody', "1", "1")
 	}
 	

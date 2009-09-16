@@ -7,7 +7,7 @@ class ProducerConvenienceMethodsTests extends GroovyTestCase {
 	}
 	
 	void testSend() {
-		testDirectReceiverService.sendMessage "direct:testDirect", "123"
+		testDirectReceiverService.camelSend "direct:testDirect", "123"
 		assertEquals("123", testDirectReceiverService.received)
 	}
 }
