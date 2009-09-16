@@ -33,10 +33,11 @@ public class GrailsRouteBuilder extends RouteBuilder {
 	}
 	
 	def methodMissing(String name, args) {
+		log.debug("resolving missing method $name on builder ${confClosure.owner.class}")
+		
 		if (args.size() == 1 && args[0] instanceof Closure) {
-			log.info("creating builder invocation proxy for route $name on builder ${confClosure.owner.class}")
-			def invocationProxy = new GrailsRouteBuilderInvocationProxy(builder: this, last: this.from(name), definition: args[0])
-			invocationProxy.configure()
+			log.debug("creating builder invocation proxy for $name on builder ${confClosure.owner.class}")
+			GrailsRouteBuilderInvocationProxy.build(this, this.from(name), args[0])
 		} else {
 			throw new MissingMethodException(name, confClosure.owner.class, args)
 		}

@@ -1,57 +1,65 @@
 package org.ix.grails.plugins.camel
 
+import org.apache.camel.builder.RouteBuilder
 import org.slf4j.LoggerFactory
 
 class GrailsRouteBuilderInvocationProxy {
 
 	static log = LoggerFactory.getLogger(this)
 	
-	def builder
-	def definition
-	def last
+	private builder
+	private definition
+	private node
 	
-	void configure() {
-		log.debug("configuring ${definition.class.name}")
-		definition.delegate = this
-		definition.resolveStrategy = Closure.DELEGATE_FIRST
-		definition()
+	static build(RouteBuilder builder, Closure definition) {
+		build(builder, null, definition)
 	}
 	
-	private collectNestedDefinitionAsFirstArg(target, nestedDefinition) {
-		def nestedInvocationProxy = this.class.newInstance(last: null, builder: builder, definition: nestedDefinition)
-		nestedInvocationProxy.configure()
-		this."$target"(nestedInvocationProxy.last)
+	static build(RouteBuilder builder, Object startingNode, Closure definition) {
+		log.debug("building {builder: '$builder', startingNode: '$startingNode', definition: '${definition.toString()}'}")
+		new GrailsRouteBuilderInvocationProxy(builder, startingNode, definition).node
 	}
 	
+	private GrailsRouteBuilderInvocationProxy(RouteBuilder builder, Object startingNode, Closure definition) {
+		this.builder = builder
+		this.node = startingNode
+		this.definition = definition
+		
+		this.definition.delegate = this
+		this.definition.resolveStrategy = Closure.DELEGATE_FIRST
+		this.definition()
+	}
+		
 	def methodMissing(String name, args) {
+		log.debug("invoking $name($args) {node = $node}")
+		
 		if ((args.size() == 1) && (args[0] instanceof Closure)) {
-			log.debug("$name was called with closure as last arg")
-			collectNestedDefinitionAsFirstArg(name, args[0])
+			log.debug("$name was called with closure as node arg")
+			
+			this."$name"(build(builder, args[0]))
 		} else {
-			log.debug("resolving $name($args)")
 			def argClasses = args.collect { it.class } as Object[]
-			log.debug("classes: $argClasses")
 
-			def value = [last, builder].find {
-				if (it == null) return false
+			def resolved = [node: node, builder: builder].find { targetName, target ->
+				if (target == null) return false
 				
-				log.debug("resolving against '$it' (${it.class})")
-				if (it.metaClass.respondsTo(it, name, argClasses)) {
-					log.debug("$it DOES respond")
-					last = it.metaClass.invokeMethod(it, name, args)
+				log.debug("resolving against '$targetName' (${target.class})")
+				if (target.metaClass.respondsTo(target, name, argClasses)) {
+					log.debug("$targetName DOES respond")
+					node = target.metaClass.invokeMethod(target, name, args)
 					true
 				} else {
-					log.debug("$it DOES NOT respond")
+					log.debug("$targetName DOES NOT respond")
 					false
 				}
 			}
 
-			if (!value) {
+			if (!resolved) {
 				log.error("could not resolve $name($args)")
 				throw new MissingMethodException(name, definition.owner.class, args)
 			}
 		
-			last
+			node
 		}
 	}
 
