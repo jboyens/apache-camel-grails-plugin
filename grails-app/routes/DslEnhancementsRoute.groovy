@@ -2,7 +2,7 @@ class DslEnhancementsRoute {
 
 	def configure = { 
 		
-		def processIsNotFalse = predicate { in.headers.process != false }
+		def processIsNotFalse = { in.headers.process != false }
 		
 		"direct:dslEnhancements" {
 			filter processIsNotFalse

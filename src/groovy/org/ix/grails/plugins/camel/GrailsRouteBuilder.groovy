@@ -44,8 +44,4 @@ public class GrailsRouteBuilder extends RouteBuilder {
 		}
 	}
 	
-	def predicate(Closure predicate) {
-		new ClosurePredicate(predicate)
-	}
-	
 }

@@ -33,34 +33,34 @@ class GrailsRouteBuilderInvocationProxy {
 	def methodMissing(String name, args) {
 		log.debug("invoking $name($args) {node = $node}")
 		
-		if ((args.size() == 1) && (args[0] instanceof Closure)) {
-			log.debug("$name was called with closure as node arg")
-			
-			this."$name"(build(builder, args[0]))
-		} else {
-			def argClasses = args.collect { it.class } as Object[]
-
-			def resolved = [node: node, builder: builder].find { targetName, target ->
-				if (target == null) return false
-				
-				log.debug("resolving against '$targetName' (${target.class})")
-				if (target.metaClass.respondsTo(target, name, argClasses)) {
-					log.debug("$targetName DOES respond")
-					node = target.metaClass.invokeMethod(target, name, args)
-					true
-				} else {
-					log.debug("$targetName DOES NOT respond")
-					false
-				}
+		args.eachWithIndex { arg, i ->
+			if (arg instanceof Closure) {
+				args[i] = new ClosurePredicate(arg)
 			}
-
-			if (!resolved) {
-				log.error("could not resolve $name($args)")
-				throw new MissingMethodException(name, definition.owner.class, args)
-			}
-		
-			node
 		}
+
+		def argClasses = args.collect { it.class } as Object[]
+
+		def resolved = [node: node, builder: builder].find { targetName, target ->
+			if (target == null) return false
+			
+			log.debug("resolving against '$targetName' (${target.class})")
+			if (target.metaClass.respondsTo(target, name, argClasses)) {
+				log.debug("$targetName DOES respond")
+				node = target.metaClass.invokeMethod(target, name, args)
+				true
+			} else {
+				log.debug("$targetName DOES NOT respond")
+				false
+			}
+		}
+
+		if (!resolved) {
+			log.error("could not resolve $name($args)")
+			throw new MissingMethodException(name, definition.owner.class, args)
+		}
+	
+		node
 	}
 
 
@@ -77,10 +77,6 @@ class GrailsRouteBuilderInvocationProxy {
 
 	def when(predicate, Closure whenDefinition) {
 		log.debug("invoking when with ${predicate.toString()} and ${whenDefinition.toString()}")
-		if (predicate instanceof Closure) {
-			predicate = builder.predicate(predicate)
-		}
-		
 		when(predicate)
 		node = build(builder, node, whenDefinition)
 		node
