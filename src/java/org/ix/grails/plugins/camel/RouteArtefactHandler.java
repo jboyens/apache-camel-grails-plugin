@@ -8,13 +8,6 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Method;
 import java.lang.reflect.Field;
 
-/**
- * Created by IntelliJ IDEA.
- * User: navtach
- * Date: Mar 16, 2009
- * Time: 3:54:40 PM
- * To change this template use File | Settings | File Templates.
- */
 public class RouteArtefactHandler extends ArtefactHandlerAdapter {
 
 	public static final String TYPE = "Route";

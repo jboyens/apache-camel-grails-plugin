@@ -3,14 +3,6 @@ package org.ix.grails.plugins.camel
 import org.slf4j.LoggerFactory
 import org.apache.camel.builder.RouteBuilder
 
-/**
- * Created by IntelliJ IDEA.
- * User: navtach
- * Date: Mar 13, 2009
- * Time: 12:59:56 PM
- * To change this template use File | Settings | File Templates.
- */
-
 public class GrailsRouteBuilder extends RouteBuilder {
 
 	static log = LoggerFactory.getLogger(this)
