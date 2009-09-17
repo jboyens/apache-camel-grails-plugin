@@ -11,4 +11,8 @@ class DslEnhancementsService {
 		received2 = packet
 	}
 	
+	def decorate(packet) {
+		packet * 2
+	}
+	
 }

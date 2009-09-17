@@ -63,4 +63,36 @@ class GrailsRouteBuilderInvocationProxy {
 		}
 	}
 
+
+	def choice() {
+		methodMissing("choice", [] as Object[])
+	}
+	
+	def choice(Closure choiceDefinition) {
+		log.debug("invoking choice with ${choiceDefinition.toString()}")
+		choice()
+		node = build(builder, node, choiceDefinition)
+		end()
+	}
+
+	def when(predicate, Closure whenDefinition) {
+		log.debug("invoking when with ${predicate.toString()} and ${whenDefinition.toString()}")
+		if (predicate instanceof Closure) {
+			predicate = build(builder, predicate)
+		}
+		
+		when(predicate)
+		node = build(builder, node, whenDefinition)
+		node
+	}
+	
+	def otherwise() {
+		methodMissing("otherwise", [] as Object[])
+	}
+
+	def otherwise(Closure otherwiseDefinition) {
+		log.debug("invoking otherwise with ${otherwiseDefinition.toString()}")
+		otherwise()
+		node = build(builder, node, otherwiseDefinition)
+	}	
 }
