@@ -45,9 +45,10 @@ class GrailsRouteBuilderInvocationProxy {
 			if (target == null) return false
 			
 			log.debug("resolving against '$targetName' (${target.class})")
-			if (target.metaClass.respondsTo(target, name, argClasses)) {
+			def metaMethod = target.metaClass.getMetaMethod(name, argClasses)
+			if (metaMethod) {
 				log.debug("$targetName DOES respond")
-				node = target.metaClass.invokeMethod(target, name, args)
+				node = metaMethod.invoke(target, args)
 				true
 			} else {
 				log.debug("$targetName DOES NOT respond")
