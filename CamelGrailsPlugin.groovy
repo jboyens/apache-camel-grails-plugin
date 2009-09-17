@@ -23,8 +23,6 @@ added with the 'grails create-route MyRouteName' command.
 	def artefacts = [new RouteArtefactHandler()]
     
     def watchedResources = [
-            "file:./grails-app/routes/**/*Route.groovy",
-            "file:./plugins/*/grails-app/routes/**/*Route.groovy",
             "file:./grails-app/controllers/**/*Controller.groovy",
             "file:./grails-app/services/**/*Service.groovy"
     ]
