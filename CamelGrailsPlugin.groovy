@@ -13,7 +13,7 @@ It also adds a 'Route' artifact that allows configuration of Camel routing using
 added with the 'grails create-route MyRouteName' command.
 '''
 	def title = "Integration with Apache Camel"
-	def author = "Chris Navta"
+	def author = "Chris Navta & Luke Daley"
     def authorEmail = "chris@ix-n.com"
 	def documentation = "http://grails.org/Camel+Plugin"
     def version = "0.3-RC1"
