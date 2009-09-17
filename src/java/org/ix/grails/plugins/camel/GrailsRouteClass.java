@@ -11,5 +11,5 @@ import groovy.lang.Closure;
  * To change this template use File | Settings | File Templates.
  */
 public interface GrailsRouteClass extends InjectableGrailsClass {
-	Closure getConfiguration();
+	Closure getConfigure();
 }

@@ -67,9 +67,7 @@ added with the 'grails create-route MyRouteName' command.
 					arguments = [RouteArtefactHandler.TYPE, routeClassName]
 				}
 
-				"$routeBuilderBeanName"(GrailsRouteBuilderFactoryBean) {
-					routeClass = ref(routeClassBeanName)
-				}
+				"$routeBuilderBeanName"(GrailsRouteBuilder, ref(routeClassBeanName))
 			}
 		}
 

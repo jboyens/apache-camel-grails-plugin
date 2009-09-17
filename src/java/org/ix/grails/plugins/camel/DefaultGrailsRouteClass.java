@@ -22,7 +22,7 @@ public class DefaultGrailsRouteClass  extends AbstractInjectableGrailsClass impl
 	}
 
 	@Override
-	public Closure getConfiguration() {
+	public Closure getConfigure() {
 		return (Closure) getMetaClass().getProperty(this.getReference().getWrappedInstance(),CONFIGURE);
 	}
 }
