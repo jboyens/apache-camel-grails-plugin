@@ -1,10 +1,6 @@
-import org.apache.camel.spring.CamelContextFactoryBean
 import org.ix.grails.plugins.camel.*
-import org.ix.test.*
-import grails.util.GrailsNameUtils
 import org.apache.camel.spring.CamelContextFactoryBean
 import org.apache.camel.spring.CamelProducerTemplateFactoryBean
-import org.apache.camel.language.groovy.CamelGroovyMethods
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean
 import org.apache.log4j.Logger
 
