@@ -27,7 +27,7 @@ class GrailsRouteBuilderInvocationProxy {
 		
 		this.definition.delegate = this
 		this.definition.resolveStrategy = Closure.DELEGATE_FIRST
-		this.definition()
+		node = this.definition()
 	}
 		
 	def methodMissing(String name, args) {
