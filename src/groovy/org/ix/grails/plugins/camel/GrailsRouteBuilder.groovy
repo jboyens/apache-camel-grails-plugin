@@ -43,4 +43,9 @@ public class GrailsRouteBuilder extends RouteBuilder {
 			throw new MissingMethodException(name, configure.owner.class, args)
 		}
 	}
+	
+	def predicate(Closure predicate) {
+		new ClosurePredicate(predicate)
+	}
+	
 }

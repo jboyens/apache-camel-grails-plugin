@@ -8,6 +8,9 @@ class DslEnchancementRouteTests extends GroovyTestCase {
 		assertNull(dslEnhancementsService.received1)
 		assertNull(dslEnhancementsService.received2)
 
+		producerTemplate.sendBodyAndHeaders("direct:dslEnhancements", 1, [foo: "bar", process: false])
+		assertNull(dslEnhancementsService.received1)
+				
 		producerTemplate.sendBodyAndHeaders("direct:dslEnhancements", 1, [foo: "bar"])
 		assertEquals(2, dslEnhancementsService.received1)
 				
