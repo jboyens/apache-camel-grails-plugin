@@ -2,11 +2,8 @@ import org.ix.grails.plugins.camel.*
 import org.apache.camel.spring.CamelContextFactoryBean
 import org.apache.camel.spring.CamelProducerTemplateFactoryBean
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean
-import org.apache.log4j.Logger
 
 class CamelGrailsPlugin {
-
-	private static final Logger log = Logger.getLogger('org.ix.grails.plugins.camel.CamelGrailsPlugin')
 
     // the plugin version
     def version = "0.2"
