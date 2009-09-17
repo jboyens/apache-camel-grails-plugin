@@ -22,13 +22,13 @@ added with the 'grails create-route MyRouteName' command.
     def loadAfter = ['controllers','services','domainClass']
 	def artefacts = [new RouteArtefactHandler()]
     
-    def watchedResources = [
-            "file:./grails-app/controllers/**/*Controller.groovy",
-            "file:./grails-app/services/**/*Service.groovy"
-    ]
+	def watchedResources = [
+		"file:./grails-app/controllers/**/*Controller.groovy",
+		"file:./grails-app/services/**/*Service.groovy"
+	]
 
 	def pluginExcludes = [
-            "grails-app/views/error.gsp"
+		"grails-app/views/error.gsp"
     ]
 
     def doWithSpring = {
