@@ -2,7 +2,7 @@ class DslEnhancementsRoute {
 
 	def configure = { 
 		"direct:dslEnhancements" {
-			to "bean:dslEnhancementsService?method=decorate"
+			process { it.in.body *= 2 }
 			choice {
 				when { header("foo").isEqualTo("bar") } {
 					to "bean:dslEnhancementsService?method=receive1"

@@ -94,5 +94,9 @@ class GrailsRouteBuilderInvocationProxy {
 		log.debug("invoking otherwise with ${otherwiseDefinition.toString()}")
 		otherwise()
 		node = build(builder, node, otherwiseDefinition)
-	}	
+	}
+	
+	def process(Closure processor) {
+		process(new ClosureProcessor(processor))
+	}
 }
