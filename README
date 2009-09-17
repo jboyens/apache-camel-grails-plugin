@@ -2,4 +2,31 @@ Apache Camel Grails Plugin
 
 This plugin povides an integation with Apache Camel (http://camel.apache.org), giving Controlles and Services 'camelSend()' and 'camelRequest()' methods that will send a message to a given endpoint.
 
-It also adds a 'Route' atifact that allows configuration of Camel routing using the Java DSL. New Routes can be added with the 'gails create-route MyRouteName' command.
+It also adds a 'Route' atifact that allows configuration of Camel routing using a Groovy DSL. New Routes can be added with the 'gails create-route MyRouteName' command.
+
+Here is an example route…
+
+[Java]
+
+errorHandler(deadLetterChannel("mock:error"));
+
+from("seda:a").choice().when(header("foo").isEqualTo("bar")).to("seda:b")
+    .when(header("foo").isEqualTo("cheese")).to("seda:c").otherwise().to("seda:d");
+
+[Groovy]
+
+errorHandler deadLetterChannel("mock:error")
+
+"seda:a" {
+	choice {
+		when { in.header.foo == "bar" } {
+			to "seda:b"
+		}
+		when { in.header.foo == "cheese" }
+			to "seda.c"
+		}
+		otherwise {
+			to "seda:d"
+		}
+	} 
+}
