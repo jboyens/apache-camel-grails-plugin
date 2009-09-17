@@ -8,7 +8,7 @@ class DslEnhancementsRoute {
 			filter processIsNotFalse
 			process { it.in.body *= 2 }
 			choice {
-				when { header("foo").isEqualTo("bar") } {
+				when { in.headers.foo == "bar" } {
 					to "bean:dslEnhancementsService?method=receive1"
 				}
 				otherwise {

@@ -78,7 +78,7 @@ class GrailsRouteBuilderInvocationProxy {
 	def when(predicate, Closure whenDefinition) {
 		log.debug("invoking when with ${predicate.toString()} and ${whenDefinition.toString()}")
 		if (predicate instanceof Closure) {
-			predicate = build(builder, predicate)
+			predicate = builder.predicate(predicate)
 		}
 		
 		when(predicate)
