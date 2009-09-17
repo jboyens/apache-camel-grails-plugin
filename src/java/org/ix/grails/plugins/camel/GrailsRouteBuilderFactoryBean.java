@@ -14,15 +14,13 @@ import org.apache.camel.spring.spi.SpringTransactionPolicy;
 public class GrailsRouteBuilderFactoryBean implements FactoryBean {
 
 	private GrailsRouteClass routeClass;
-    private SpringTransactionPolicy propagationRequiredTransactionPolicy;
-    private SpringTransactionPolicy propagationRequiresNewTransactionPolicy;
     
 	private static final Logger log = Logger.getLogger(GrailsRouteBuilderFactoryBean.class);
 
 	@Override
 	public Object getObject() throws Exception {
 		log.debug("RouteClass: " + routeClass);
-		return new GrailsRouteBuilder(routeClass.getConfiguration(), propagationRequiredTransactionPolicy, propagationRequiresNewTransactionPolicy);
+		return new GrailsRouteBuilder(routeClass.getConfiguration());
 	}
 
 	@Override
@@ -39,13 +37,5 @@ public class GrailsRouteBuilderFactoryBean implements FactoryBean {
 		log.debug("Hit GrailsRouteBuilderFactoryBean.setRouteClass");
 		this.routeClass = routeClass;
 	}
-	
-	public void setPropagationRequiredTransactionPolicy(SpringTransactionPolicy policy) {
-	    this.propagationRequiredTransactionPolicy = policy;
-	}
-	
-	public void setPropagationRequiresNewTransactionPolicy(SpringTransactionPolicy policy) {
-	    this.propagationRequiresNewTransactionPolicy = policy;
-	}
-	
+
 }

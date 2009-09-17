@@ -2,7 +2,6 @@ import org.apache.camel.spring.CamelContextFactoryBean
 import org.ix.grails.plugins.camel.*
 import org.ix.test.*
 import grails.util.GrailsNameUtils
-import org.apache.camel.spring.spi.SpringTransactionPolicy
 import org.apache.camel.spring.CamelContextFactoryBean
 import org.apache.camel.spring.CamelProducerTemplateFactoryBean
 import org.apache.camel.language.groovy.CamelGroovyMethods
@@ -49,15 +48,6 @@ added with the 'grails create-route MyRouteName' command.
     def documentation = "http://grails.org/Camel+Plugin"
 
     def doWithSpring = {
-		propagationRequiredTransactionPolicy(SpringTransactionPolicy) {
-			transactionManager = ref("transactionManager")
-		}
-		
-		propagationRequiresNewTransactionPolicy(SpringTransactionPolicy) {
-			transactionManager = ref("transactionManager")
-			propagationBehaviorName = "PROPAGATION_REQUIRES_NEW"
-		}
-		
 		registerRoutesCamelContextAndProducerTemplate(delegate, application.routeClasses)
     }
 
@@ -79,8 +69,6 @@ added with the 'grails create-route MyRouteName' command.
 
 				"$routeBuilderBeanName"(GrailsRouteBuilderFactoryBean) {
 					routeClass = ref(routeClassBeanName)
-					propagationRequiredTransactionPolicy = propagationRequiredTransactionPolicy
-					propagationRequiresNewTransactionPolicy = propagationRequiresNewTransactionPolicy
 				}
 			}
 		}

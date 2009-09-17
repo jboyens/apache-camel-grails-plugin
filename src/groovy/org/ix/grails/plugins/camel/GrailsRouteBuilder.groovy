@@ -17,13 +17,9 @@ public class GrailsRouteBuilder extends RouteBuilder {
 	static log = LoggerFactory.getLogger(this)
 	
 	def confClosure
-	def PROPAGATION_REQUIRED
-	def PROPAGATION_REQUIRES_NEW
 	
-	public GrailsRouteBuilder(Closure confClosure, SpringTransactionPolicy propagationRequired, SpringTransactionPolicy propagationRequiresNew) {
+	public GrailsRouteBuilder(Closure confClosure) {
 		this.confClosure = confClosure
-		this.PROPAGATION_REQUIRED = propagationRequired
-		this.PROPAGATION_REQUIRES_NEW = propagationRequiresNew
 	}
 
 	public void configure() {
