@@ -28,7 +28,10 @@ added with the 'grails create-route MyRouteName' command.
 	]
 
 	def pluginExcludes = [
-		"grails-app/views/error.gsp"
+		"grails-app/routes/**",
+		"grails-app/services/**",
+		"grails-app/conf/**",
+		"grails-app/domain/**"
     ]
 
     def doWithSpring = {
