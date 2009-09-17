@@ -5,30 +5,6 @@ import org.springframework.beans.factory.config.MethodInvokingFactoryBean
 
 class CamelGrailsPlugin {
 
-    // the plugin version
-    def version = "0.2"
-    // the version or versions of Grails the plugin is designed for
-    def grailsVersion = "1.1 > *"
-    // the other plugins this plugin depends on
-    def dependsOn = [:]
-    // resources that are excluded from plugin packaging
-    def loadAfter = ['controllers','services','domainClass']
-    def pluginExcludes = [
-            "grails-app/views/error.gsp"
-    ]
-    def watchedResources = [
-            "file:./grails-app/routes/**/*Route.groovy",
-            "file:./plugins/*/grails-app/routes/**/*Route.groovy",
-            "file:./grails-app/controllers/**/*Controller.groovy",
-            "file:./grails-app/services/**/*Service.groovy"
-    ]
-
-
-    def artefacts = [new RouteArtefactHandler()]
-
-    def author = "Chris Navta"
-    def authorEmail = "chris@ix-n.com"
-    def title = "Integration with Apache Camel"
     def description = '''\\
 This plugin provides an integration with Apache Camel (http://camel.apache.org), giving Controllers and Services 'camelSend()' and 'camelRequest()' methods that will send
 a message to a given endpoint.
@@ -36,9 +12,26 @@ a message to a given endpoint.
 It also adds a 'Route' artifact that allows configuration of Camel routing using the Java DSL. New Routes can be
 added with the 'grails create-route MyRouteName' command.
 '''
+	def title = "Integration with Apache Camel"
+	def author = "Chris Navta"
+    def authorEmail = "chris@ix-n.com"
+	def documentation = "http://grails.org/Camel+Plugin"
+    def version = "0.2"
+    def grailsVersion = "1.1 > *"
+    def dependsOn = [:]
+    def loadAfter = ['controllers','services','domainClass']
+	def artefacts = [new RouteArtefactHandler()]
+    
+    def watchedResources = [
+            "file:./grails-app/routes/**/*Route.groovy",
+            "file:./plugins/*/grails-app/routes/**/*Route.groovy",
+            "file:./grails-app/controllers/**/*Controller.groovy",
+            "file:./grails-app/services/**/*Service.groovy"
+    ]
 
-    // URL to the plugin's documentation
-    def documentation = "http://grails.org/Camel+Plugin"
+	def pluginExcludes = [
+            "grails-app/views/error.gsp"
+    ]
 
     def doWithSpring = {
 		registerRoutesCamelContextAndProducerTemplate(delegate, application.routeClasses)
