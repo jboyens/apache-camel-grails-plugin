@@ -64,7 +64,6 @@ class GrailsRouteBuilderInvocationProxy {
 		node
 	}
 
-
 	def choice() {
 		methodMissing("choice", [] as Object[])
 	}
