@@ -16,7 +16,7 @@ added with the 'grails create-route MyRouteName' command.
 	def author = "Chris Navta"
     def authorEmail = "chris@ix-n.com"
 	def documentation = "http://grails.org/Camel+Plugin"
-    def version = "0.2"
+    def version = "0.3-RC1"
     def grailsVersion = "1.1 > *"
     def dependsOn = [:]
     def loadAfter = ['controllers','services','domainClass']
