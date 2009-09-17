@@ -6,7 +6,7 @@ class DslEnhancementsRoute {
 		
 		"direct:dslEnhancements" {
 			filter processIsNotFalse
-			process { it.in.body *= 2 }
+			process { in.body *= 2 }
 			choice {
 				when { in.headers.foo == "bar" } {
 					to "bean:dslEnhancementsService?method=receive1"

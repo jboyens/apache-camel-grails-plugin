@@ -10,10 +10,12 @@ public class ClosureProcessor implements Processor {
 
 	public ClosureProcessor(Closure target) {
 		this.target = target;
+		this.target.setResolveStrategy(Closure.DELEGATE_FIRST);
 	}
 
 	@Override
 	public void process(Exchange exchange) throws Exception {
+	    this.target.setDelegate(exchange);
 		this.target.call(exchange);
 	}
 }
