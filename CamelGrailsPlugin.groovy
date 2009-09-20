@@ -23,40 +23,32 @@ class CamelGrailsPlugin {
     ]
 
     def doWithSpring = {
-		registerRoutesCamelContextAndProducerTemplate(delegate, application.routeClasses)
-    }
-
-	def registerRoutesCamelContextAndProducerTemplate(beanBuilder, routeClasses) {
 		def routeBuilderBeanNames = []
 		
-		routeClasses.each {
+		application.routeClasses.each {
 			def routeClassName = it.fullName
 			def routeClassBeanName = "${routeClassName}RouteClass"
 			def routeBuilderBeanName = "${routeClassName}Builder"
 			routeBuilderBeanNames << routeBuilderBeanName
 			
-			beanBuilder.with {
-				"$routeClassBeanName"(MethodInvokingFactoryBean) {
-					targetObject = ref("grailsApplication",true)
-					targetMethod = "getArtefact"
-					arguments = [RouteArtefactHandler.TYPE, routeClassName]
-				}
-
-				"$routeBuilderBeanName"(GrailsRouteBuilder, ref(routeClassBeanName))
+			"$routeClassBeanName"(MethodInvokingFactoryBean) {
+				targetObject = ref("grailsApplication",true)
+				targetMethod = "getArtefact"
+				arguments = [RouteArtefactHandler.TYPE, routeClassName]
 			}
+
+			"$routeBuilderBeanName"(GrailsRouteBuilder, ref(routeClassBeanName))
 		}
 
-		beanBuilder.with {
-			camelContext(CamelContextFactoryBean) {
-				routeBuilders = routeBuilderBeanNames.collect { ref(it) }
-				shouldStartContext = false
-			}
-			
-			producerTemplate(CamelProducerTemplateFactoryBean) {
-				camelContext = camelContext
-			}
+		camelContext(CamelContextFactoryBean) {
+			routeBuilders = routeBuilderBeanNames.collect { ref(it) }
+			shouldStartContext = false
 		}
-	}
+		
+		producerTemplate(CamelProducerTemplateFactoryBean) {
+			camelContext = camelContext
+		}
+    }
 	
     def doWithApplicationContext = { applicationContext ->
 		applicationContext.getBean("camelContext").with {
