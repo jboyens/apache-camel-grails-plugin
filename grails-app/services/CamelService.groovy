@@ -2,6 +2,10 @@ class CamelService {
 
 	def camelProducerTemplate
 
+	def getProducer() {
+		camelProducerTemplate
+	}
+	
 	def send(endpoint, body = null) {
 		camelProducerTemplate.sendBody(endpoint, body)
 	}
