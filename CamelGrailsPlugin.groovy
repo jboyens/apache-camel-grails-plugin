@@ -1,5 +1,5 @@
 import grails.plugins.camel.GrailsRouteBuilder
-import org.codehaus.groovy.grails.plugins.camel.RouteArtefactHandler
+import org.codehaus.groovy.grails.plugins.camel.RoutesArtefactHandler
 import org.codehaus.groovy.grails.plugins.camel.RouteBuilderFactoryBean
 import org.apache.camel.spring.CamelContextFactoryBean
 import org.apache.camel.spring.CamelProducerTemplateFactoryBean
@@ -15,7 +15,7 @@ class CamelGrailsPlugin {
     def authorEmail = "chris@ix-n.com"
 
     def grailsVersion = "1.1 > *"
-	def artefacts = [new RouteArtefactHandler()]
+	def artefacts = [new RoutesArtefactHandler()]
 
 	def pluginExcludes = [
 		"grails-app/routes/**",
@@ -27,19 +27,19 @@ class CamelGrailsPlugin {
     def doWithSpring = {
 		def routeBuilderBeanNames = []
 		
-		application.routeClasses.each {
-			def routeClassName = it.fullName
-			def routeClassBeanName = "${routeClassName}RouteClass"
-			def routeBuilderBeanName = "${routeClassName}Builder"
+		application.routesClasses.each {
+			def routesClassName = it.fullName
+			def routesClassBeanName = "${routesClassName}RoutesClass"
+			def routeBuilderBeanName = "${routesClassName}Builder"
 			routeBuilderBeanNames << routeBuilderBeanName
 			
-			"$routeClassBeanName"(MethodInvokingFactoryBean) {
+			"$routesClassBeanName"(MethodInvokingFactoryBean) {
 				targetObject = ref("grailsApplication",true)
 				targetMethod = "getArtefact"
-				arguments = [RouteArtefactHandler.TYPE, routeClassName]
+				arguments = [RoutesArtefactHandler.TYPE, routesClassName]
 			}
 
-			"$routeBuilderBeanName"(RouteBuilderFactoryBean, ref(routeClassBeanName))
+			"$routeBuilderBeanName"(RouteBuilderFactoryBean, ref(routesClassBeanName))
 		}
 
 		camelContext(CamelContextFactoryBean) {

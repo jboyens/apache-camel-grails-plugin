@@ -1,4 +1,4 @@
-class DomainRouteTests extends GroovyTestCase {
+class DomainRoutesTests extends GroovyTestCase {
 	
 	def camelService
 	

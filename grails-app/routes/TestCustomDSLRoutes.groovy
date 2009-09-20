@@ -1,6 +1,6 @@
-class TestCustomDSLRoute {
+class TestCustomDSLRoutes {
 
-	def configure = { 
+	def routes = { 
 		'direct:testCustomDSL' {
 			to 'bean:testDirectReceiverService?method=receive'
 		}

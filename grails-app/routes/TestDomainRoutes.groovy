@@ -1,6 +1,6 @@
-class TestDomainRoute {
+class TestDomainRoutes {
 
-	def configure = {
+	def routes = {
 		from('direct:testDomain').to('bean:testDomainReceiverService?method=receive')
 	}
 

@@ -9,14 +9,14 @@ class RouteBuilderFactoryBean implements FactoryBean {
 	final Class objectType = RouteBuilder
 	final boolean singleton = false
 
-	private GrailsRouteClass routeClass
+	private GrailsRoutesClass routeClass
 	
-	RouteBuilderFactoryBean(GrailsRouteClass routeClass) {
+	RouteBuilderFactoryBean(GrailsRoutesClass routeClass) {
 		this.routeClass = routeClass
 	}
 	
 	public getObject() throws Exception {
-		new DefaultGrailsClosureRouteBuilder(routeClass.configure)
+		new DefaultGrailsClosureRouteBuilder(routeClass.routes)
 	}
 
 }

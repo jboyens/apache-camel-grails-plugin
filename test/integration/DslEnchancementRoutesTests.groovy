@@ -1,4 +1,4 @@
-class DslEnchancementRouteTests extends GroovyTestCase {
+class DslEnchancementRoutesTests extends GroovyTestCase {
 
 	def camelService
 	def dslEnhancementsService

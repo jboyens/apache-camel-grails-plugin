@@ -1,6 +1,6 @@
-class DslEnhancementsRoute {
+class DslEnhancementsRoutes {
 
-	def configure = { 
+	def routes = {
 		
 		def processIsNotFalse = { in.headers.process != false }
 		

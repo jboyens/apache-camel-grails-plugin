@@ -1,4 +1,4 @@
-class DirectRouteTests extends GroovyTestCase {
+class DirectRoutesTests extends GroovyTestCase {
 	
 	def testDirectReceiverService
 	def camelService

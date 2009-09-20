@@ -1,6 +1,6 @@
-class TestDirectRoute {
+class TestDirectRoutes {
 
-	def configure = {
+	def routes = {
 		from('direct:testDirect').to('bean:testDirectReceiverService?method=receive')
 	}
 
