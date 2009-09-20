@@ -3,6 +3,7 @@ import org.codehaus.groovy.grails.plugins.camel.RoutesArtefactHandler
 import org.codehaus.groovy.grails.plugins.camel.RouteBuilderFactoryBean
 import org.apache.camel.spring.CamelContextFactoryBean
 import org.apache.camel.spring.CamelProducerTemplateFactoryBean
+import org.apache.camel.spring.CamelConsumerTemplateFactoryBean
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean
 
 class CamelGrailsPlugin {
@@ -48,6 +49,10 @@ class CamelGrailsPlugin {
 		}
 		
 		camelProducerTemplate(CamelProducerTemplateFactoryBean) {
+			camelContext = camelContext
+		}
+		
+		camelConsumerTemplate(CamelConsumerTemplateFactoryBean) {
 			camelContext = camelContext
 		}
     }

@@ -1,9 +1,14 @@
 class CamelService {
 
 	def camelProducerTemplate
-
+	def camelConsumerTemplate
+	
 	def getProducer() {
 		camelProducerTemplate
+	}
+
+	def getConsumer() {
+		camelConsumerTemplate
 	}
 	
 	def send(endpoint, body = null) {
