@@ -11,7 +11,7 @@ class CamelGrailsPlugin {
 	def title = "Integration with Apache Camel"
     def description = 'This plugin provides integration with Apache Camel (http://camel.apache.org). It features a service for sending messages, and a Groovy DSL for defining routes.'
 	def documentation = "http://grails.org/Camel+Plugin"
-	def version = "0.3-RC2"
+	def version = "0.3-RC3"
 	def author = "Chris Navta & Luke Daley"
     def authorEmail = "chris@ix-n.com"
 
