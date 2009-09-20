@@ -2,7 +2,7 @@ package grails.plugins.camel
 
 import org.slf4j.LoggerFactory
 import org.apache.camel.builder.RouteBuilder
-import org.codehaus.groovy.grails.plugins.camel.GrailsRouteBuilderInvocationProxy
+import org.codehaus.groovy.grails.plugins.camel.GrailsRouteBuilderConfigureHelper
 
 public class GrailsRouteBuilder extends RouteBuilder {
 
@@ -39,7 +39,7 @@ public class GrailsRouteBuilder extends RouteBuilder {
 		
 		if (args.size() == 1 && args[0] instanceof Closure) {
 			log.debug("creating builder invocation proxy for $name on builder ${configure.owner.class}")
-			GrailsRouteBuilderInvocationProxy.build(this, this.from(name), args[0])
+			GrailsRouteBuilderConfigureHelper.configure(this, this.from(name), args[0])
 		} else {
 			throw new MissingMethodException(name, configure.owner.class, args)
 		}

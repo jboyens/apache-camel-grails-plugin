@@ -5,7 +5,7 @@ import grails.plugins.camel.ClosurePredicate
 import org.apache.camel.builder.RouteBuilder
 import org.slf4j.LoggerFactory
 
-class GrailsRouteBuilderInvocationProxy {
+class GrailsRouteBuilderConfigureHelper {
 
 	static log = LoggerFactory.getLogger(this)
 	
@@ -13,16 +13,16 @@ class GrailsRouteBuilderInvocationProxy {
 	private definition
 	private node
 	
-	static build(RouteBuilder builder, Closure definition) {
-		build(builder, null, definition)
+	static configure(RouteBuilder builder, Closure definition) {
+		configure(builder, null, definition)
 	}
 	
-	static build(RouteBuilder builder, Object startingNode, Closure definition) {
+	static configure(RouteBuilder builder, Object startingNode, Closure definition) {
 		log.debug("building {builder: '$builder', startingNode: '$startingNode', definition: '${definition.toString()}'}")
-		new GrailsRouteBuilderInvocationProxy(builder, startingNode, definition).node
+		new GrailsRouteBuilderConfigureHelper(builder, startingNode, definition).node
 	}
 	
-	private GrailsRouteBuilderInvocationProxy(RouteBuilder builder, Object startingNode, Closure definition) {
+	private GrailsRouteBuilderConfigureHelper(RouteBuilder builder, Object startingNode, Closure definition) {
 		this.builder = builder
 		this.node = startingNode
 		this.definition = definition
@@ -73,14 +73,14 @@ class GrailsRouteBuilderInvocationProxy {
 	def choice(Closure choiceDefinition) {
 		log.debug("invoking choice with ${choiceDefinition.toString()}")
 		choice()
-		node = build(builder, node, choiceDefinition)
+		node = configure(builder, node, choiceDefinition)
 		end()
 	}
 
 	def when(predicate, Closure whenDefinition) {
 		log.debug("invoking when with ${predicate.toString()} and ${whenDefinition.toString()}")
 		when(predicate)
-		node = build(builder, node, whenDefinition)
+		node = configure(builder, node, whenDefinition)
 		node
 	}
 	
@@ -91,7 +91,7 @@ class GrailsRouteBuilderInvocationProxy {
 	def otherwise(Closure otherwiseDefinition) {
 		log.debug("invoking otherwise with ${otherwiseDefinition.toString()}")
 		otherwise()
-		node = build(builder, node, otherwiseDefinition)
+		node = configure(builder, node, otherwiseDefinition)
 	}
 	
 	def process(Closure processor) {
