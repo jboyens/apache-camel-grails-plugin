@@ -1,5 +1,6 @@
 import grails.plugins.camel.GrailsRouteBuilder
 import org.codehaus.groovy.grails.plugins.camel.RouteArtefactHandler
+import org.codehaus.groovy.grails.plugins.camel.RouteBuilderFactoryBean
 import org.apache.camel.spring.CamelContextFactoryBean
 import org.apache.camel.spring.CamelProducerTemplateFactoryBean
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean
@@ -38,7 +39,7 @@ class CamelGrailsPlugin {
 				arguments = [RouteArtefactHandler.TYPE, routeClassName]
 			}
 
-			"$routeBuilderBeanName"(GrailsRouteBuilder, ref(routeClassBeanName))
+			"$routeBuilderBeanName"(RouteBuilderFactoryBean, ref(routeClassBeanName))
 		}
 
 		camelContext(CamelContextFactoryBean) {
