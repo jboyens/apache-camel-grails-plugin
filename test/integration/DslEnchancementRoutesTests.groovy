@@ -7,6 +7,7 @@ class DslEnchancementRoutesTests extends GroovyTestCase {
 		
 		assertNull(testDslEnhancementsService.received1)
 		assertNull(testDslEnhancementsService.received2)
+		assertNull(testDslEnhancementsService.receivedException)
 
 		camelService.send "direct:dslEnhancements", 1, foo: "bar", process: false
 		assertNull(testDslEnhancementsService.received1)
@@ -16,5 +17,9 @@ class DslEnchancementRoutesTests extends GroovyTestCase {
 				
 		camelService.send "direct:dslEnhancements", 2, foo: "notbar"
 		assertEquals(4, testDslEnhancementsService.received2)
+		
+		camelService.send "direct:dslEnhancements", 4, foo: "bar"
+		assertTrue(testDslEnhancementsService.receivedException)
+		
 	}
 }

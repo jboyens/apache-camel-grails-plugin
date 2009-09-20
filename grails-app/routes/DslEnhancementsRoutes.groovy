@@ -5,6 +5,12 @@ class DslEnhancementsRoutes {
 		def processIsNotFalse = { in.headers.process != false }
 		
 		"direct:dslEnhancements" {
+			
+			onException (Exception) {
+				to "bean:testDslEnhancementsService?method=exception"
+				handled true
+			}
+			
 			filter processIsNotFalse
 			process { in.body *= 2 }
 			choice {

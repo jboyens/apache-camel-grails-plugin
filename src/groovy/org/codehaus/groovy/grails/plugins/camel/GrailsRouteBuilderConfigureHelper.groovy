@@ -97,4 +97,12 @@ class GrailsRouteBuilderConfigureHelper {
 	def process(Closure processor) {
 		process(new ClosureProcessor(processor))
 	}
+	
+	def onException(Class exceptionClass, Closure onExceptionDefinition) {
+		log.debug("invoking onException($exceptionClass) with ${onExceptionDefinition.toString()}")
+		onException(exceptionClass)
+		node = configure(builder, node, onExceptionDefinition)
+		end()
+	} 
+	
 }
