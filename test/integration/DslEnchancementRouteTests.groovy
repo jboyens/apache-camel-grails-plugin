@@ -1,6 +1,6 @@
 class DslEnchancementRouteTests extends GroovyTestCase {
 
-	def producerTemplate
+	def camelService
 	def dslEnhancementsService
 	
 	void testSend() {
@@ -8,13 +8,13 @@ class DslEnchancementRouteTests extends GroovyTestCase {
 		assertNull(dslEnhancementsService.received1)
 		assertNull(dslEnhancementsService.received2)
 
-		producerTemplate.sendBodyAndHeaders("direct:dslEnhancements", 1, [foo: "bar", process: false])
+		camelService.send "direct:dslEnhancements", 1, foo: "bar", process: false
 		assertNull(dslEnhancementsService.received1)
 				
-		producerTemplate.sendBodyAndHeaders("direct:dslEnhancements", 1, [foo: "bar"])
+		camelService.send "direct:dslEnhancements", 1, foo: "bar"
 		assertEquals(2, dslEnhancementsService.received1)
 				
-		producerTemplate.sendBodyAndHeaders("direct:dslEnhancements", 2, [foo: "notbar"])
+		camelService.send "direct:dslEnhancements", 2, foo: "notbar"
 		assertEquals(4, dslEnhancementsService.received2)
 	}
 }

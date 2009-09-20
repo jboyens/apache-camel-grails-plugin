@@ -1,9 +1,9 @@
 class DomainRouteTests extends GroovyTestCase {
 	
-	def producerTemplate
+	def camelService
 	
 	void testSend() {
-		producerTemplate.sendBody("direct:testDomain", "payload1")
+		camelService.send "direct:testDomain", "payload1"
 		assertNotNull(Message.findByBody("payload1"))
 	}
 

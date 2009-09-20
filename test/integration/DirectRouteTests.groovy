@@ -1,10 +1,10 @@
 class DirectRouteTests extends GroovyTestCase {
 	
 	def testDirectReceiverService
-	def producerTemplate
+	def camelService
 	
 	void testSimpleSendMessage() {
-		producerTemplate.sendBody("direct:testDirect", "payload1")
+		camelService.send "direct:testDirect", "payload1"
 		assertEquals("payload1", testDirectReceiverService.received)
 	}
 

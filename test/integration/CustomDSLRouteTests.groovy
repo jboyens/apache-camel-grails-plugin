@@ -1,10 +1,10 @@
 class CustomDSLRouteTests extends GroovyTestCase {
 	
 	def testDirectReceiverService
-	def producerTemplate
+	def camelService
 	
 	void testSimpleSendMessage() {
-		producerTemplate.sendBody("direct:testCustomDSL", "payload2")
+		camelService.send "direct:testCustomDSL", "payload2"
 		assertEquals("payload2", testDirectReceiverService.received)
 	}
 
