@@ -1,4 +1,4 @@
-class DslEnhancementsService {
+class TestDslEnhancementsService {
 
 	def received1
 	def received2

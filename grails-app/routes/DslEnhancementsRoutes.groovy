@@ -9,10 +9,10 @@ class DslEnhancementsRoutes {
 			process { in.body *= 2 }
 			choice {
 				when { in.headers.foo == "bar" } {
-					to "bean:dslEnhancementsService?method=receive1"
+					to "bean:testDslEnhancementsService?method=receive1"
 				}
 				otherwise {
-					to "bean:dslEnhancementsService?method=receive2"
+					to "bean:testDslEnhancementsService?method=receive2"
 				}	
 			}
 		}

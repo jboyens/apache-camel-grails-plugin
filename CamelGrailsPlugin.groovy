@@ -20,7 +20,7 @@ class CamelGrailsPlugin {
 
 	def pluginExcludes = [
 		"grails-app/routes/**",
-		"grails-app/services/**",
+		"grails-app/services/**/Test*",
 		"grails-app/conf/**",
 		"grails-app/domain/**"
     ]
