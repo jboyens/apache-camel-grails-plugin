@@ -1,5 +1,7 @@
-package org.ix.grails.plugins.camel
+package org.codehaus.groovy.grails.plugins.camel
 
+import grails.plugins.camel.ClosureProcessor
+import grails.plugins.camel.ClosurePredicate
 import org.apache.camel.builder.RouteBuilder
 import org.slf4j.LoggerFactory
 

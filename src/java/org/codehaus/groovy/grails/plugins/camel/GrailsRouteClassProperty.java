@@ -1,4 +1,4 @@
-package org.ix.grails.plugins.camel;
+package org.codehaus.groovy.grails.plugins.camel;
 
 public interface GrailsRouteClassProperty {
 

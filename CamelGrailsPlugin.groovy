@@ -1,5 +1,5 @@
-import org.ix.grails.plugins.camel.GrailsRouteBuilder
-import org.ix.grails.plugins.camel.RouteArtefactHandler
+import grails.plugins.camel.GrailsRouteBuilder
+import org.codehaus.groovy.grails.plugins.camel.RouteArtefactHandler
 import org.apache.camel.spring.CamelContextFactoryBean
 import org.apache.camel.spring.CamelProducerTemplateFactoryBean
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean

@@ -1,4 +1,4 @@
-package org.ix.grails.plugins.camel;
+package org.codehaus.groovy.grails.plugins.camel;
 
 import org.codehaus.groovy.grails.commons.AbstractInjectableGrailsClass;
 import groovy.lang.Closure;

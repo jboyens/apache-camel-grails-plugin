@@ -1,7 +1,8 @@
-package org.ix.grails.plugins.camel
+package grails.plugins.camel
 
 import org.slf4j.LoggerFactory
 import org.apache.camel.builder.RouteBuilder
+import org.codehaus.groovy.grails.plugins.camel.GrailsRouteBuilderInvocationProxy
 
 public class GrailsRouteBuilder extends RouteBuilder {
 

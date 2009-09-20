@@ -1,4 +1,4 @@
-package org.ix.grails.plugins.camel;
+package grails.plugins.camel;
 
 import org.apache.camel.Processor;
 import org.apache.camel.Exchange;
