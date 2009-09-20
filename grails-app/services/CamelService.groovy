@@ -2,8 +2,13 @@ class CamelService {
 
 	static transactional = false
 	
+	def camelContext
 	def camelProducerTemplate
 	def camelConsumerTemplate
+	
+	def getContext() {
+		camelContext
+	}
 	
 	def getProducer() {
 		camelProducerTemplate
