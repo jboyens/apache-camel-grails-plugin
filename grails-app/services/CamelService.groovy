@@ -1,21 +1,21 @@
 class CamelService {
 
-	def producerTemplate
+	def camelProducerTemplate
 
 	def send(endpoint, body = null) {
-		producerTemplate.sendBody(endpoint, body)
+		camelProducerTemplate.sendBody(endpoint, body)
 	}
 	
 	def send(Map headers, endpoint, body = null) {
-		producerTemplate.sendBodyAndHeaders(endpoint, body, headers)
+		camelProducerTemplate.sendBodyAndHeaders(endpoint, body, headers)
 	}
 	
 	def request(endpoint, body = null) {
-		producerTemplate.requestBody(endpoint, body)
+		camelProducerTemplate.requestBody(endpoint, body)
 	}
 	
 	def request(Map headers, endpoint, body = null) {
-		producerTemplate.requestBodyAndHeaders(endpoint, body, headers)
+		camelProducerTemplate.requestBodyAndHeaders(endpoint, body, headers)
 	}
 	
 }

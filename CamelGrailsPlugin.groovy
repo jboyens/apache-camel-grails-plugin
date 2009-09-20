@@ -47,7 +47,7 @@ class CamelGrailsPlugin {
 			shouldStartContext = false
 		}
 		
-		producerTemplate(CamelProducerTemplateFactoryBean) {
+		camelProducerTemplate(CamelProducerTemplateFactoryBean) {
 			camelContext = camelContext
 		}
     }
