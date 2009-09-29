@@ -20,7 +20,7 @@ errorHandler deadLetterChannel("mock:error")
 		when { in.header.foo == "bar" } {
 			to "seda:b"
 		}
-		when { in.header.foo == "cheese" }
+		when { in.header.foo == "cheese" } {
 			to "seda.c"
 		}
 		otherwise {
