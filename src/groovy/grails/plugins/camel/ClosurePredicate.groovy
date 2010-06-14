@@ -22,4 +22,8 @@ class ClosurePredicate implements Predicate {
 		predicateClone.resolveStrategy = Closure.DELEGATE_FIRST
 		predicateClone() == true
 	}
+
+	boolean matches(Object object) throws Exception {
+		matches((Exchange) exchange)
+	}
 }

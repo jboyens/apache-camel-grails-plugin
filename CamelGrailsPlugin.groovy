@@ -2,6 +2,7 @@ import grails.plugins.camel.GrailsRouteBuilder
 import org.codehaus.groovy.grails.plugins.camel.RoutesArtefactHandler
 import org.codehaus.groovy.grails.plugins.camel.RouteBuilderFactoryBean
 import org.apache.camel.spring.CamelContextFactoryBean
+import org.apache.camel.model.RouteBuilderDefinition
 import org.apache.camel.spring.CamelProducerTemplateFactoryBean
 import org.apache.camel.spring.CamelConsumerTemplateFactoryBean
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean
@@ -24,10 +25,10 @@ class CamelGrailsPlugin {
 		"grails-app/conf/**",
 		"grails-app/domain/**"
     ]
-
-    def doWithSpring = {
-		def routeBuilderBeanNames = []
-		
+	
+	def routeBuilderBeanNames = []
+   
+	def doWithSpring = {
 		application.routesClasses.each {
 			def routesClassName = it.fullName
 			def routesClassBeanName = "${routesClassName}RoutesClass"
@@ -44,8 +45,7 @@ class CamelGrailsPlugin {
 		}
 
 		camelContext(CamelContextFactoryBean) {
-			routeBuilders = routeBuilderBeanNames.collect { ref(it) }
-			shouldStartContext = false
+			autoStartup = false
 		}
 		
 		camelProducerTemplate(CamelProducerTemplateFactoryBean) {
@@ -59,7 +59,8 @@ class CamelGrailsPlugin {
 	
     def doWithApplicationContext = { applicationContext ->
 		applicationContext.getBean("camelContext").with {
-			shouldStartContext = true
+			autoStartup = true
+			routeBuilderBeanNames.each { addRoutes(applicationContext.getBean(it)) }
 			start()
 		}
     }
