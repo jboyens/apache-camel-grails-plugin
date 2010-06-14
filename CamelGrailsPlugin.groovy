@@ -12,11 +12,11 @@ class CamelGrailsPlugin {
 	def title = "Integration with Apache Camel"
     def description = 'This plugin provides integration with Apache Camel (http://camel.apache.org). It features a service for sending messages, and a Groovy DSL for defining routes.'
 	def documentation = "http://grails.org/Camel+Plugin"
-	def version = "0.3-RC3"
-	def author = "Chris Navta & Luke Daley"
+	def version = "0.4-RC1"
+	def author = "Chris Navta, Luke Daley, JR Boyens"
     def authorEmail = "chris@ix-n.com"
 
-    def grailsVersion = "1.1 > *"
+    def grailsVersion = "1.3.1 > *"
 	def artefacts = [new RoutesArtefactHandler()]
 
 	def pluginExcludes = [
